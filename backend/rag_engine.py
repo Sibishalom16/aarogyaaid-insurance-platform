@@ -2,7 +2,6 @@ import os
 import json
 import chromadb
 from pypdf import PdfReader
-from sentence_transformers import SentenceTransformer
 
 # -----------------------------------
 # Chroma Setup
@@ -17,12 +16,24 @@ collection = client.get_or_create_collection(
 )
 
 # -----------------------------------
-# Embedding Model
+# Lazy Load Embedding Model
 # -----------------------------------
 
-model = SentenceTransformer(
-    "all-MiniLM-L6-v2"
-)
+model = None
+
+
+def get_model():
+    global model
+
+    if model is None:
+        from sentence_transformers import SentenceTransformer
+
+        model = SentenceTransformer(
+            "all-MiniLM-L6-v2"
+        )
+
+    return model
+
 
 # -----------------------------------
 # Helpers
@@ -150,7 +161,7 @@ def add_document(
             "insurer": insurer
         })
 
-    embeddings = model.encode(
+    embeddings = get_model().encode(
         docs
     ).tolist()
 
@@ -170,7 +181,7 @@ def add_document(
 
 def search_documents(query, top_k=3):
 
-    embedding = model.encode(
+    embedding = get_model().encode(
         [query]
     ).tolist()
 
