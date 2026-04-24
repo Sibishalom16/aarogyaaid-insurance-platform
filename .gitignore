@@ -1,0 +1,23 @@
+# Environment
+.env
+*.env
+
+# Python
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Frontend
+node_modules/
+dist/
+
+# Backend generated data
+backend/uploads/*
+!backend/uploads/.gitkeep
+backend/chroma_db/
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/settings.json
