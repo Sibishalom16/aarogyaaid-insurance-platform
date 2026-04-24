@@ -1,6 +1,9 @@
 ﻿import axios from "axios";
 
-export const recommendPolicy = (form) => {
-  return axios.post("http://127.0.0.1:8000/recommend", form);
-};
+const BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  "https://aarogyaaid-insurance-platform.onrender.com";
 
+export const recommendPolicy = (form) => {
+  return axios.post(`${BASE_URL}/recommend`, form);
+};
